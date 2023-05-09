@@ -1,4 +1,7 @@
 # PROJET QUESTIONNAIRE V3 : POO
+import sys, os
+import fnmatch
+
 
 class Question:
     def __init__(self, titre, choix, bonne_reponse):
@@ -54,6 +57,37 @@ class Questionnaire:
         print("Score final :", score, "sur", len(self.questions))
         return score
 
+
+class CreationDeQuestionnaire:
+    debutant = {}
+    expert = {}
+    confirme = {}
+    niveau_liste = ['debutant', 'expert', 'confirme']
+    choix = ""
+    titre = ""
+
+    def __init__(self, nom_du_quizz):
+        self.nom_du_quizz = nom_du_quizz
+        self.presentation()
+
+    def ouvrir_questionnaire_json(self):
+        for file in os.listdir('quizz_json/'):
+            if fnmatch.fnmatch(file, '*_' + self.titre[0] + '_' + self.choix + '.json'):
+                print(file)
+
+    def presentation(self):
+        self.titre = self.nom_du_quizz.split(".")
+        print("Vous avez demandé le questionnaire : " + self.titre[0])
+        print("Choisissez votre niveau de difficuté parmis ces choix :")
+        print("1- Débutant")
+        print("2- Expert")
+        print("3- Confirmé")
+        choix = Question.demander_reponse_numerique_utlisateur(1, 3)
+        self.choix = self.niveau_liste[choix-1]
+        self.ouvrir_questionnaire_json()
+
+
+CreationDeQuestionnaire(sys.argv[1])
 # Questionnaire(
 #     (
 #     Question("Quelle est la capitale de la France ?", ("Marseille", "Nice", "Paris", "Nantes", "Lille"), "Paris"),
