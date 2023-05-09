@@ -1,6 +1,7 @@
 # PROJET QUESTIONNAIRE V3 : POO
 import sys, os
 import fnmatch
+import json
 
 
 class Question:
@@ -9,10 +10,10 @@ class Question:
         self.choix = choix
         self.bonne_reponse = bonne_reponse
 
-    def FromData(data):
-        # ....
-        q = Question(data[2], data[0], data[1])
-        return q
+    # def FromData(data):
+    #     # ....
+    #     q = Question(data[2], data[0], data[1])
+    #     return q
 
     def poser(self):
         print("QUESTION")
@@ -59,23 +60,30 @@ class Questionnaire:
 
 
 class CreationDeQuestionnaire:
-    debutant = {}
-    expert = {}
-    confirme = {}
     niveau_liste = ['debutant', 'expert', 'confirme']
-    choix = ""
+    choix_niveau = ""  # correspond au niveau du jeu (debutant, expert, confirmé)
     titre = ""
+    quizz = None
+    categorie = ""
+    difficulte = ""
+    question = ""
+    choix = []
+    bonne_reponse = ""
+    liste_de_question = []
 
     def __init__(self, nom_du_quizz):
         self.nom_du_quizz = nom_du_quizz
-        self.presentation()
+        self.niveau()
 
     def ouvrir_questionnaire_json(self):
         for file in os.listdir('quizz_json/'):
-            if fnmatch.fnmatch(file, '*_' + self.titre[0] + '_' + self.choix + '.json'):
-                print(file)
+            if fnmatch.fnmatch(file, '*_' + self.titre[0] + '_' + self.choix_niveau + '.json'):
+                file_json = open("quizz_json/" + file, 'r')
+                data = file_json.read()
+                self.quizz = json.loads(data)
+                self.mise_en_forme()
 
-    def presentation(self):
+    def niveau(self):
         self.titre = self.nom_du_quizz.split(".")
         print("Vous avez demandé le questionnaire : " + self.titre[0])
         print("Choisissez votre niveau de difficuté parmis ces choix :")
@@ -83,11 +91,25 @@ class CreationDeQuestionnaire:
         print("2- Expert")
         print("3- Confirmé")
         choix = Question.demander_reponse_numerique_utlisateur(1, 3)
-        self.choix = self.niveau_liste[choix-1]
+        self.choix_niveau = self.niveau_liste[choix - 1]
         self.ouvrir_questionnaire_json()
 
+    def mise_en_forme(self):
+        self.categorie = self.quizz["categorie"]
+        self.difficulte = self.quizz["difficulté"]
+        for question in self.quizz["questions"]:
+            self.question = question["titre"]
+            liste_de_choix = question["choix"]
+            for choix_unique in liste_de_choix:
+                self.choix.append(choix_unique[0])
+                if choix_unique[1]:
+                    self.bonne_reponse = choix_unique[0]
+            self.liste_de_question.append(Question(self.question, self.choix, self.bonne_reponse))
+            self.choix = []
 
-CreationDeQuestionnaire(sys.argv[1])
+
+Questionnaire(CreationDeQuestionnaire(sys.argv[1]).liste_de_question).lancer()
+
 # Questionnaire(
 #     (
 #     Question("Quelle est la capitale de la France ?", ("Marseille", "Nice", "Paris", "Nantes", "Lille"), "Paris"),

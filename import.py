@@ -27,7 +27,7 @@ def generate_json_file(categorie, titre, url):
     out_questionnaire_data = {"categorie": categorie, "titre": titre, "questions": []}
     out_questions_data = []
     response = requests.get(url)
-    data = json.loads(response.text)
+    data = json.loads(response.text)  # Parce que récupérer de request ".text"
     difficulte = data["difficulté"]  # Information sur la difficulté
     all_quizz = data["quizz"]["fr"]
     for quizz_title, quizz_data in all_quizz.items():
