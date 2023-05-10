@@ -32,7 +32,7 @@ class Question:
             print("🔴 Mauvaise réponse")
             
         print()
-        time.sleep(.5)
+        time.sleep(.80)
         os.system('cls|clear')
         return resultat_response_correcte
 
@@ -43,9 +43,9 @@ class Question:
             if min <= reponse_int <= max:
                 return reponse_int
 
-            print("ERREUR : Vous devez rentrer un nombre entre", min, "et", max)
+            print("⚠️ Vous devez rentrer un nombre entre", min, "et", max)
         except:
-            print("ERREUR : Veuillez rentrer uniquement des chiffres")
+            print("⛔️ Veuillez rentrer uniquement des chiffres")
         return Question.demander_reponse_numerique_utlisateur(min, max)
 
 
