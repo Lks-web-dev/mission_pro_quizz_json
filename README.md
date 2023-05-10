@@ -6,7 +6,7 @@ immersion pro dans le cadre de ma formation
 2. Concernant le **questionnaire.py** :
     > Doit fonctionner avec les fichiers json.
     
-    > Donner un fichier en entrée, ``python3 questionnaire.py chocolat.json`` (juste un argument)
+    > Donner un fichier en entrée, ``~$:python3 questionnaire.py chocolat.json`` (juste un argument)
 ## Les plus :
   - afficher le titre du questionnaire
   - la catégorie
