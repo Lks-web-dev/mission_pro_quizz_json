@@ -15,8 +15,8 @@ class Question:
     #     q = Question(data[2], data[0], data[1])
     #     return q
 
-    def poser(self):
-        print("QUESTION")
+    def poser(self, iteration, nombre_de_question):
+        print("QUESTION : " + str(iteration) + "/" + str(nombre_de_question))
         print("  " + self.titre)
         for i in range(len(self.choix)):
             print("  ", i+1, "-", self.choix[i])
@@ -52,15 +52,18 @@ class Questionnaire:
 
     def lancer(self):
         score = 0
+        nombre_de_question = len(self.questions)
+        iteration = 0
         for question in self.questions:
-            if question.poser():
+            iteration += 1
+            if question.poser(iteration, nombre_de_question):
                 score += 1
         print("Score final :", score, "sur", len(self.questions))
         return score
 
 
 class CreationDeQuestionnaire:
-    niveau_liste = ['debutant', 'expert', 'confirme']
+    niveau_liste = ['debutant', 'confirme', 'expert']
     choix_niveau = ""  # correspond au niveau du jeu (debutant, expert, confirmé)
     titre = ""
     quizz = None
@@ -88,8 +91,8 @@ class CreationDeQuestionnaire:
         print("Vous avez demandé le questionnaire : " + self.titre[0])
         print("Choisissez votre niveau de difficuté parmis ces choix :")
         print("1- Débutant")
-        print("2- Expert")
-        print("3- Confirmé")
+        print("2- Confirmé")
+        print("3- Expert")
         choix = Question.demander_reponse_numerique_utlisateur(1, 3)
         self.choix_niveau = self.niveau_liste[choix - 1]
         self.ouvrir_questionnaire_json()
@@ -106,6 +109,13 @@ class CreationDeQuestionnaire:
                     self.bonne_reponse = choix_unique[0]
             self.liste_de_question.append(Question(self.question, self.choix, self.bonne_reponse))
             self.choix = []
+        self.presentation()
+
+    def presentation(self):
+        print("-" * 125)
+        print("Vous avez choisi le niveau " + self.choix_niveau + ", il y a " + str(len(self.liste_de_question)) + " questions")
+        print("Difficulté du quizz " + self.titre[0] + " est de : " + self.difficulte)
+        print("-" * 125)
 
 
 Questionnaire(CreationDeQuestionnaire(sys.argv[1]).liste_de_question).lancer()
