@@ -2,6 +2,7 @@
 import sys, os
 import fnmatch
 import json
+import time
 
 
 class Question:
@@ -25,12 +26,14 @@ class Question:
         resultat_response_correcte = False
         reponse_int = Question.demander_reponse_numerique_utlisateur(1, len(self.choix))
         if self.choix[reponse_int-1].lower() == self.bonne_reponse.lower():
-            print("Bonne réponse")
+            print("🟢 Bonne réponse")
             resultat_response_correcte = True
         else:
-            print("Mauvaise réponse")
+            print("🔴 Mauvaise réponse")
             
         print()
+        time.sleep(.5)
+        os.system('cls|clear')
         return resultat_response_correcte
 
     def demander_reponse_numerique_utlisateur(min, max):
@@ -58,7 +61,9 @@ class Questionnaire:
             iteration += 1
             if question.poser(iteration, nombre_de_question):
                 score += 1
+        print('*' * 60)
         print("Score final :", score, "sur", len(self.questions))
+        print('*' * 60)
         return score
 
 
@@ -118,8 +123,7 @@ class CreationDeQuestionnaire:
         self.file_niveau = self.file.split("_")
         # Reconstitution du nom du fichier en fonction de la difficulté choisit
         self.file = self.file_niveau[0] + "_" + self.titre[0] + "_" + self.choix_niveau + ".json"
-        print(self.file)
-
+        os.system('cls|clear')
 
     def mise_en_forme(self):
         self.categorie = self.quizz["categorie"]
@@ -134,14 +138,18 @@ class CreationDeQuestionnaire:
             self.liste_de_question.append(Question(self.question, self.choix, self.bonne_reponse))
             self.choix = []
 
-
     def presentation(self):
         print("-" * 125)
         print("Vous avez choisi le niveau " + self.choix_niveau + ", il y a " + str(len(self.liste_de_question)) + " questions")
         print("Difficulté du quizz " + self.titre[0] + " est de : " + self.difficulte)
         print("-" * 125)
+        time.sleep(3)
+        print("Let's Go ! 🤯")
+        time.sleep(2)
+        os.system('cls|clear')
 
 
+os.system('cls|clear')
 Questionnaire(CreationDeQuestionnaire(sys.argv[1]).liste_de_question).lancer()
 
 # Questionnaire(
