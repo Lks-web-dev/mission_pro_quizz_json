@@ -73,24 +73,41 @@ class CreationDeQuestionnaire:
     choix = []
     bonne_reponse = ""
     liste_de_question = []
+    resultat = False
+    file = ""
+    file_niveau = ""
 
     def __init__(self, nom_du_quizz):
         self.nom_du_quizz = nom_du_quizz
-        self.niveau()
         self.ouvrir_questionnaire_json()
+        self.niveau()
+        self.recuperation_fichier_json()
         self.mise_en_forme()
         self.presentation()
 
     def ouvrir_questionnaire_json(self):
+        self.titre = self.nom_du_quizz.split(".")
+        liste_resultat = []
+
         for file in os.listdir('quizz_json/'):
-            if fnmatch.fnmatch(file, '*_' + self.titre[0] + '_' + self.choix_niveau + '.json'):
-                file_json = open("quizz_json/" + file, 'r')
-                data = file_json.read()
-                self.quizz = json.loads(data)
-                file_json.close()
+            self.resultat = fnmatch.fnmatch(file, '*_' + self.titre[0] + '_*.json')
+            liste_resultat.append(self.resultat)
+            if self.resultat:
+                self.file = file
+                return None
+
+        if not self.resultat:
+            print("Le thème " + self.titre[0] + " n'existe pas...")
+            exit()
+
+    def recuperation_fichier_json(self):
+        file_json = open("quizz_json/" + self.file, 'r')
+        data = file_json.read()
+        self.quizz = json.loads(data)
+        file_json.close()
+
 
     def niveau(self):
-        self.titre = self.nom_du_quizz.split(".")
         print("Vous avez demandé le questionnaire : " + self.titre[0])
         print("Choisissez votre niveau de difficuté parmis ces choix :")
         print("1- Débutant")
@@ -98,6 +115,11 @@ class CreationDeQuestionnaire:
         print("3- Expert")
         choix = Question.demander_reponse_numerique_utlisateur(1, 3)
         self.choix_niveau = self.niveau_liste[choix - 1]
+        self.file_niveau = self.file.split("_")
+        # Reconstitution du nom du fichier en fonction de la difficulté choisit
+        self.file = self.file_niveau[0] + "_" + self.titre[0] + "_" + self.choix_niveau + ".json"
+        print(self.file)
+
 
     def mise_en_forme(self):
         self.categorie = self.quizz["categorie"]
@@ -111,6 +133,7 @@ class CreationDeQuestionnaire:
                     self.bonne_reponse = choix_unique[0]
             self.liste_de_question.append(Question(self.question, self.choix, self.bonne_reponse))
             self.choix = []
+
 
     def presentation(self):
         print("-" * 125)
