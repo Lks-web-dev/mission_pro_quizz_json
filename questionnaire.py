@@ -77,6 +77,9 @@ class CreationDeQuestionnaire:
     def __init__(self, nom_du_quizz):
         self.nom_du_quizz = nom_du_quizz
         self.niveau()
+        self.ouvrir_questionnaire_json()
+        self.mise_en_forme()
+        self.presentation()
 
     def ouvrir_questionnaire_json(self):
         for file in os.listdir('quizz_json/'):
@@ -85,7 +88,7 @@ class CreationDeQuestionnaire:
                 data = file_json.read()
                 self.quizz = json.loads(data)
                 file_json.close()
-                self.mise_en_forme()
+                return
 
     def niveau(self):
         self.titre = self.nom_du_quizz.split(".")
@@ -96,7 +99,7 @@ class CreationDeQuestionnaire:
         print("3- Expert")
         choix = Question.demander_reponse_numerique_utlisateur(1, 3)
         self.choix_niveau = self.niveau_liste[choix - 1]
-        self.ouvrir_questionnaire_json()
+        return
 
     def mise_en_forme(self):
         self.categorie = self.quizz["categorie"]
@@ -110,7 +113,7 @@ class CreationDeQuestionnaire:
                     self.bonne_reponse = choix_unique[0]
             self.liste_de_question.append(Question(self.question, self.choix, self.bonne_reponse))
             self.choix = []
-        self.presentation()
+        return
 
     def presentation(self):
         print("-" * 125)
