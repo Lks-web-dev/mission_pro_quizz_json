@@ -84,6 +84,7 @@ class CreationDeQuestionnaire:
                 file_json = open("quizz_json/" + file, 'r')
                 data = file_json.read()
                 self.quizz = json.loads(data)
+                file_json.close()
                 self.mise_en_forme()
 
     def niveau(self):
