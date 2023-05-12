@@ -145,8 +145,10 @@ class CreationDeQuestionnaire:
 
     def presentation(self):
         print("-" * 125)
-        print("Vous avez choisi le niveau " + self.choix_niveau + ", il y a " + str(len(self.liste_de_question)) + " questions")
-        print("Difficulté du quizz " + self.titre[0] + " est de : " + self.difficulte)
+        print("Thème :" + self.titre[0])
+        print("Niveau :" + self.choix_niveau)
+        print("Difficulté :" + self.difficulte)
+        print("Nbr de Question :" + str(len(self.liste_de_question)))
         print("-" * 125)
         time.sleep(3)
         print("Let's Go ! 🤯")
