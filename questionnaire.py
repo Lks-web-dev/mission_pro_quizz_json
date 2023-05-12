@@ -1,5 +1,6 @@
 # PROJET QUESTIONNAIRE V3 : POO
-import sys, os
+import sys
+import os
 import fnmatch
 import json
 import time
@@ -37,7 +38,7 @@ class Question:
         return resultat_response_correcte
 
     def demander_reponse_numerique_utlisateur(min, max):
-        reponse_str = input("Votre réponse (entre " + str(min) + " et " + str(max) + ") :")
+        reponse_str = input("Votre réponse (entre " + str(min) + " et " + str(max) + ") : ")
         try:
             reponse_int = int(reponse_str)
             if min <= reponse_int <= max:
@@ -150,8 +151,11 @@ class CreationDeQuestionnaire:
 
 
 os.system('cls|clear')
-Questionnaire(CreationDeQuestionnaire(sys.argv[1]).liste_de_question).lancer()
 
+try:
+    Questionnaire(CreationDeQuestionnaire(sys.argv[1]).liste_de_question).lancer()
+except IndexError:
+    print("Il manque le thème en paramètre...")
 # Questionnaire(
 #     (
 #     Question("Quelle est la capitale de la France ?", ("Marseille", "Nice", "Paris", "Nantes", "Lille"), "Paris"),
