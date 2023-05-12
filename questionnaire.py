@@ -107,10 +107,14 @@ class CreationDeQuestionnaire:
             exit()
 
     def recuperation_fichier_json(self):
-        file_json = open("quizz_json/" + self.file, 'r')
-        data = file_json.read()
-        self.quizz = json.loads(data)
-        file_json.close()
+        try:
+            file_json = open("quizz_json/" + self.file, 'r')
+            data = file_json.read()
+            self.quizz = json.loads(data)
+            file_json.close()
+        except FileNotFoundError:
+            print("Ce fichier Json n'est pas dans notre base de données...")
+            exit()
 
 
     def niveau(self):
