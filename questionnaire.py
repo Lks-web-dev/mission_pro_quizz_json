@@ -72,6 +72,7 @@ class CreationDeQuestionnaire:
     niveau_liste = ['debutant', 'confirme', 'expert']
     choix_niveau = ""  # correspond au niveau du jeu (debutant, expert, confirmé)
     titre = ""
+    titre_questionnaire = ""
     quizz = None
     categorie = ""
     difficulte = ""
@@ -116,7 +117,6 @@ class CreationDeQuestionnaire:
             print("Ce fichier Json n'est pas dans notre base de données...")
             exit()
 
-
     def niveau(self):
         print("Vous avez demandé le questionnaire : " + self.titre[0])
         print("Choisissez votre niveau de difficuté parmis ces choix :")
@@ -133,6 +133,7 @@ class CreationDeQuestionnaire:
     def mise_en_forme(self):
         self.categorie = self.quizz["categorie"]
         self.difficulte = self.quizz["difficulté"]
+        self.titre_questionnaire = self.quizz["titre"]
         for question in self.quizz["questions"]:
             self.question = question["titre"]
             liste_de_choix = question["choix"]
@@ -145,7 +146,7 @@ class CreationDeQuestionnaire:
 
     def presentation(self):
         print("-" * 125)
-        print("Thème :" + self.titre[0])
+        print("Thème :" + self.titre_questionnaire)
         print("Niveau :" + self.choix_niveau)
         print("Difficulté :" + self.difficulte)
         print("Nbr de Question :" + str(len(self.liste_de_question)))
@@ -156,18 +157,18 @@ class CreationDeQuestionnaire:
         os.system('cls|clear')
 
 
-os.system('cls|clear')
-
-try:
-    Questionnaire(CreationDeQuestionnaire(sys.argv[1]).liste_de_question).lancer()
-except IndexError:
-    print("Il manque le thème en paramètre...")
-# Questionnaire(
-#     (
-#     Question("Quelle est la capitale de la France ?", ("Marseille", "Nice", "Paris", "Nantes", "Lille"), "Paris"),
-#     Question("Quelle est la capitale de l'Italie ?", ("Rome", "Venise", "Pise", "Florence"), "Rome"),
-#     Question("Quelle est la capitale de la Belgique ?", ("Anvers", "Bruxelles", "Bruges", "Liège"), "Bruxelles")
-#     )
-# ).lancer()
+if __name__ == '__main__':
+    os.system('cls|clear')
+    try:
+        Questionnaire(CreationDeQuestionnaire(sys.argv[1]).liste_de_question).lancer()
+    except IndexError:
+        print("Il manque le thème en paramètre...")
+    # Questionnaire(
+    #     (
+    #     Question("Quelle est la capitale de la France ?", ("Marseille", "Nice", "Paris", "Nantes", "Lille"), "Paris"),
+    #     Question("Quelle est la capitale de l'Italie ?", ("Rome", "Venise", "Pise", "Florence"), "Rome"),
+    #     Question("Quelle est la capitale de la Belgique ?", ("Anvers", "Bruxelles", "Bruges", "Liège"), "Bruxelles")
+    #     )
+    # ).lancer()
 
 
