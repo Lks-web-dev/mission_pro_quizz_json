@@ -1,14 +1,13 @@
 import json
 import unittest
 from unittest.mock import patch
+import os
+# ================Les fichiers à tester================
 import questionnaire
 import questionnaire_import
-import os
 
 
 class TestsQuestion(unittest.TestCase):
-    print("test_du_questionnaire")
-
     def test_question_bonne_mauvaise_reponse(self):
         choix = ("choix1", "choix2", "choix3", "choix4")
         q = questionnaire.Question("Titre_question", choix, "choix3")
@@ -39,6 +38,7 @@ class TestsQuestionnaire(unittest.TestCase):
 class TestsImportQuestionnaire(unittest.TestCase):
     def test_import_format_json(self):
         questionnaire_import.generate_json_file("Vie quotidienne", "Chocolat", "https://www.kiwime.com/oqdb/files/1019394664/OpenQuizzDB_019/openquizzdb_19.json")
+        # les fichier ci-dessous sont dans le dossier : quizz_json/
         filenames = ("quizz_json/viequotidienne_chocolat_confirme.json", "quizz_json/viequotidienne_chocolat_debutant.json", "quizz_json/viequotidienne_chocolat_expert.json")
 
         for filename in filenames:
